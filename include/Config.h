@@ -3,7 +3,7 @@
 
 // ----------------- Seleccion de prueba -----
 
-#define CUADRADO
+//#define CUADRADO
 //#define TRIANGULO
 //#define RECTANGULO
 //#define TEST
