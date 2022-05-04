@@ -13,6 +13,11 @@
     #define LEFT 0
 #endif
 
+//Punto de saturacion para el PID
+#ifndef VEL_MAX_ENC
+    #define VEL_MAX_ENC 255
+#endif
+
 class PositionControl
 {
     private:
@@ -41,12 +46,8 @@ class PositionControl
 
         // Avanza una distancia determinada
         // (metodo bloqueante)
-        void avanzarDistancia(float distance)
-        {
-            float angle = 360.0*distance/(ROBOT_RADIUS*PI);
-            this->setPosition(angle, angle);
-        }
-
+        void avanzarDistancia(float );
+        
         // Gira X grados sobre sí mismo
         // (metodo bloqueante)
         float girar(float beta);
@@ -55,12 +56,8 @@ class PositionControl
         void setPosition(float setpoint_l, float setpoint_r);
 
         // Resetea la posicion relativa de los encoders
-        void resetEncoders()
-        {
-            misEncoders[LEFT]->resetPosicion();
-            misEncoders[RIGHT]->resetPosicion();
-        }
-
+        void resetEncoders();
+    
         //Para el robot
         void parar();
 

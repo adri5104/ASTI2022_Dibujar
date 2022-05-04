@@ -2,6 +2,7 @@
 #define Motor_h
 
 #include "Config.h"
+#include <Arduino.h>
 
 class Motor
 {
