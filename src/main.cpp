@@ -1,5 +1,17 @@
-#include <Arduino.h>
+/* Codigo para la prueba de dibujar del 
+Asti Challenge 2022.
 
+Equipo SkyRumba
+
+Author: Adrian
+Created: 2022-05-04
+
+Creditos a Jaime Bravo Algaba
+*/
+
+// ################# Includes ########################
+
+#include <Arduino.h>
 #include "Config.h"
 #include "Encoder.h"
 #include "Motor.h"
@@ -7,7 +19,6 @@
 #include "Config.h"
 #include "PositionControl.h"
 #include "Display.h"
-
 
 // ################# Objetos globales #################
 
@@ -47,14 +58,16 @@ void setup() {
   control.init();
   display_config();
   
-
   // Configuracion de interrupciones
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_I_CA), header_encoderL, CHANGE);
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_D_CA), header_encoderR, CHANGE);
 
   // Set de los Gains del PID
   control.setGains(kp, ki, kd);
+  
   display_printLogo();
+  delay(1500);
+  display.clearDisplay();
 }
 
 void loop() {
@@ -89,6 +102,11 @@ void loop() {
 
 #ifdef CUADRADO
 
+  display_printLine("CUADRADO");
+  delay(1000);
+  display.clearDisplay();
+
+
   control.avanzarDistancia(L_CUADRADO);
   control.resetEncoders();
   delay(200);
@@ -111,12 +129,18 @@ void loop() {
   control.resetEncoders();
 
   for(;;)
-  {}
+  {
+    display_printLine("FIN CUADRADO");
+  }
 
 #endif
 
 #ifdef TRIANGULO
 
+display_printLine("TRIANGULO");
+delay(1000);
+display.clearDisplay();
+
 control.avanzarDistancia(L_TRIANGULO);
 control.resetEncoders();
 delay(200);
@@ -134,11 +158,18 @@ control.resetEncoders();
 delay(200);
 
   for(;;)
-  {}
+  {
+    display_printLine("FIN TRIANGULO");
+  }
 
 #endif
 
 #ifdef RECTANGULO
+
+display_printLine("RECTANGULO");
+delay(1000);
+display.clearDisplay();
+
 control.resetEncoders();
 delay(200);
 control.avanzarDistancia(L_RECTANGULO_C);
@@ -164,7 +195,9 @@ control.resetEncoders();
 delay(200);
 
   for(;;)
-  {}
+  {
+    display_printLine("FIN RECTANGULO");
+  }
 
 #endif
 

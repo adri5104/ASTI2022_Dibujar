@@ -1,6 +1,11 @@
 #ifndef POSITIONCONTROL_H
 #define POSITIONCONTROL_H
 
+/*  Autors:
+        Jaime Bravo Algaba
+        Adrian Rieker Gonzalez
+ */
+
 #include <Arduino.h>
 #include "Encoder.h"
 #include "Motor.h"
@@ -11,7 +16,7 @@
 
 #ifndef LEFT
     #define LEFT 0
-#endif
+#endif 
 
 //Punto de saturacion para el PID
 #ifndef VEL_MAX_ENC
