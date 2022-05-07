@@ -3,8 +3,8 @@
 
 // ----------------- Seleccion de prueba -----
 
-#define CUADRADO
-//#define TRIANGULO
+//#define CUADRADO
+#define TRIANGULO
 //#define RECTANGULO
 //#define TEST
 //#define PID_TUNING
