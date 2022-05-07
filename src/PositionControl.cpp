@@ -21,9 +21,8 @@ void PositionControl::init()
     kd = 0.5;
 }
 
-void PositionControl::setPosition(float xd, float setpoint_r)
+void PositionControl::setPosition(float setpoint_l, float setpoint_r)
 {
-    float setpoint_l = -xd;
     float gradosl, gradosr;
     float error_l, error_r;
     float error_l_prev, error_r_prev;
