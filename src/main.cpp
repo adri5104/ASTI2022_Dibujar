@@ -27,8 +27,8 @@ Motor Motor_derecho(PIN_MOTOR_D_IN1, PIN_MOTOR_D_IN2, PIN_MOTOR_D_PWM, PWM_CH_D,
 Motor Motor_izquierdo(PIN_MOTOR_I_IN1, PIN_MOTOR_I_IN2, PIN_MOTOR_I_PWM, PWM_CH_I, PWM_FREC, PWM_RES); // Motor izquierdo
 
 // Objetos globales para los dos encoders
-Encoder_p encoderL = Encoder_p(PIN_ENCODER_I_CA, PIN_ENCODER_I_CB , 4.0);
-Encoder_p encoderR = Encoder_p(PIN_ENCODER_D_CA, PIN_ENCODER_D_CB , 4.0);
+Encoder_p encoderL = Encoder_p(PIN_ENCODER_I_CA, PIN_ENCODER_I_CB , 0.142857);
+Encoder_p encoderR = Encoder_p(PIN_ENCODER_D_CA, PIN_ENCODER_D_CB , 0.142857);
 
 // Objetos globales para el control de posicion
 PositionControl control( &Motor_derecho, &Motor_izquierdo, &encoderR, &encoderL);
@@ -50,22 +50,30 @@ void setup() {
   
   Serial.begin(9600);
 
+  
   // Inicializaciones
   Motor_derecho.init();
   Motor_izquierdo.init();
   encoderR.init();
   encoderL.init();
   control.init();
+  
+
+
+
   display_config();
+  delay(1000);
+  display_printLogo();
   
   // Configuracion de interrupciones
-  attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_I_CA), header_encoderL, CHANGE);
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_D_CA), header_encoderR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_I_CA), header_encoderL, CHANGE);
+  
 
   // Set de los Gains del PID
   control.setGains(kp, ki, kd);
   
-  display_printLogo();
+  //display_printLogo();
   delay(1500);
   display.clearDisplay();
 }
@@ -73,17 +81,22 @@ void setup() {
 void loop() {
   
 #ifdef PID_TUNING
-  control.resetEncoder();
+  control.resetEncoders();
   control.setPosition(90, 90);
   delay(1000);
 
-  control.resetEncoder();
+  control.resetEncoders();
   control.setPosition(-90, -90);
   delay(1000);
 #endif
 
 #ifdef TEST
-  control.resetEncoder();
+
+  control.girar(90);
+
+
+  /*
+  control.resetEncoders();
   control.girar(90);
   delay(500);	
   control.girar(0);
@@ -93,11 +106,12 @@ void loop() {
   control.girar(0);
   delay(500);
 
-  control.resetEncoder();
+  control.resetEncoders();
   control.avanzarDistancia(100);
   delay(500);
   control.avanzarDistancia(0);
   delay(500);
+  */
 #endif
 
 #ifdef CUADRADO
@@ -122,6 +136,11 @@ void loop() {
   control.avanzarDistancia(L_CUADRADO);
   control.resetEncoders();
   delay(200);	
+  control.girar(90);
+  control.resetEncoders();
+  delay(200);
+  control.avanzarDistancia(L_CUADRADO);
+  control.resetEncoders();
   control.girar(90);
   control.resetEncoders();
   delay(200);
@@ -203,15 +222,32 @@ delay(200);
 
 #ifdef PRINT_POSITION
 
+
+float pos1 = control.getPos(RIGHT);
+float pos2 = control.getPos(LEFT);
+
+int vel1 = control.getVelD();
+int vel2 = control.getVelI();
+
+
 display.clearDisplay();
 display.setCursor(0,0);
 display.setTextColor(SSD1306_WHITE);
 display.setTextSize(1);
-display.print("M_right: ");
-display.print(control.getEncoders()[RIGHT].getPosicionGrados());
-display.print(" M_left: ");
-display.print(control.getEncoders()[LEFT].getPosicionGrados());
+display.print("P_right: ");
+display.print(pos1);
+display.print("P_left: ");
+display.print(pos2);
+display.print(" V_right: ");
+display.print(vel1);
+display.print(" V_left: ");
+display.print(vel2);
+
 display.display();
+
+Serial.println(pos1);
+Serial.println(pos2);
+
 
 #endif
 
