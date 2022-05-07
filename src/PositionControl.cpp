@@ -21,15 +21,14 @@ void PositionControl::init()
     kd = 0.5;
 }
 
-void PositionControl::setPosition(float setpoint_l, float setpoint_r)
+void PositionControl::setPosition(float xd, float setpoint_r)
 {
+    float setpoint_l = -xd;
     float gradosl, gradosr;
     float error_l, error_r;
     float error_l_prev, error_r_prev;
     float error_l_integral = 0.0, error_r_integral = 0.0;
     float error_l_deriv = 0.0, error_r_deriv = 0.0;
-
-
 
     //Obtenemos posicion en este instante
     gradosl = misEncoders[LEFT]->getPosicionGrados();
@@ -41,7 +40,7 @@ void PositionControl::setPosition(float setpoint_l, float setpoint_r)
 
     // Se ejecuta el siguiente while hasta que se alcance un error determinado
     // TODO: Deberia haber un timeout para evitar que se quede en un bucle infinito
-    while((error_l > 1.0 || error_l< -1.0) || (error_r > 1.0 || error_r < -1.0))
+    while((error_l > 15.0 || error_l< -15.0) || (error_r > 15.0 || error_r < -15.0))
     {
         // Lectura
         gradosl = misEncoders[LEFT]->getPosicionGrados();
@@ -67,11 +66,11 @@ void PositionControl::setPosition(float setpoint_l, float setpoint_r)
         // Motor Izquierdo
         if (vel_i > 0.0)
         {
-            misMotores[LEFT]->setFwd();
+            misMotores[LEFT]->setBack();
             misMotores[LEFT]->setPWM(vel_i > VEL_MAX_ENC? VEL_MAX_ENC : vel_i);
         }
         else{
-            misMotores[LEFT]->setBack();
+            misMotores[LEFT]->setFwd();
             misMotores[LEFT]->setPWM(-vel_d > VEL_MAX_ENC? VEL_MAX_ENC : -vel_d);
         }
 
@@ -87,10 +86,16 @@ void PositionControl::setPosition(float setpoint_l, float setpoint_r)
             misMotores[RIGHT]->setPWM(-vel_d > VEL_MAX_ENC? VEL_MAX_ENC : -vel_d);
         }
 
-        // Dejamos los motores libres
+        Serial.println(error_l);
+        Serial.println(error_r);
+    }
+    // Dejamos los motores libres
         misMotores[LEFT]->setFree();
         misMotores[RIGHT]->setFree();
-    }
+
+        
+        
+    
 }
 
 void PositionControl::avanzarDistancia(float distance)

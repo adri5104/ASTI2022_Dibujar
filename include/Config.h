@@ -3,13 +3,15 @@
 
 // ----------------- Seleccion de prueba -----
 
-//#define CUADRADO
+#define CUADRADO
 //#define TRIANGULO
 //#define RECTANGULO
 //#define TEST
 //#define PID_TUNING
 
-#define PRINT_POSITION
+
+
+//#define PRINT_POSITION
 
 //(mm)
 #define L_CUADRADO 200
@@ -20,8 +22,8 @@
 // ----------------- Parametros robot -------
 
     // Dimensions (mm)
-    const float ROBOT_WIDTH = 83.0;
-    const float ROBOT_RADIUS = 30.0;
+    const float ROBOT_WIDTH = 158.0;
+    const float ROBOT_RADIUS = 45.0;
 
     // Motor ticks por grado
     const float TICKS_PER_DEGREE = 4.0;
@@ -29,19 +31,19 @@
 // ----------------- Parametros PID -------
 
     // Parametros PID
-    const float kp = 0.5;
+    const float kp = 1;
     const float ki = 0.0;
-    const float kd = 0.0;
+    const float kd = 0.5;
 
     // Velocidad maxima
-    #define VEL_MAX_ENC  255.0
+    #define VEL_MAX_ENC  200.0
 
 // ----------------- Display -----------------
 
 #define SCREEN_WIDTH 128 
 #define SCREEN_HEIGHT 64 
 #define OLED_RESET     4 
-#define SCREEN_ADDRESS 0x3
+#define SCREEN_ADDRESS 0x3C
 
 // ----------------- PWM ---------------------
 

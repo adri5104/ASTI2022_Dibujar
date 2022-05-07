@@ -85,6 +85,11 @@ class PositionControl
             this->ki = ki;
             this->kd = kd;
         };
+
+        float getPos(int xd)
+        {
+            return misEncoders[xd]->getPosicionGrados();
+        }
 };
 
 
