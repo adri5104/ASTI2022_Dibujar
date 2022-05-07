@@ -116,6 +116,8 @@ void loop() {
 
 #ifdef CUADRADO
 
+
+
   display_printLine("CUADRADO");
   delay(1000);
   display.clearDisplay();
